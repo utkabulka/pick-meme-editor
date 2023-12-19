@@ -13,6 +13,10 @@ function App() {
   })
   const [cards, setCards] = useState(DefaultPack.cards)
 
+  function handlePackInfoChanged(key, value) {
+    setPackInfo({ ...packInfo, [key]: value })
+  }
+
   function handleCardAdded() {
     setCards([
       ...cards,
@@ -36,8 +40,20 @@ function App() {
       <div className='header'>
         <button>Import</button>
         <button>Export</button>
-        <input placeholder='Pack name' />
-        <input placeholder='Author name' />
+        <input
+          value={packInfo.pack_name}
+          onChange={(e) => {
+            handlePackInfoChanged('pack_name', e.target.value)
+          }}
+          placeholder='Pack name'
+        />
+        <input
+          value={packInfo.author}
+          onChange={(e) => {
+            handlePackInfoChanged('author', e.target.value)
+          }}
+          placeholder='Author'
+        />
       </div>
       <div className='cards'>
         {cards.map((card) => (
