@@ -1,33 +1,35 @@
 import { useState } from 'react'
 import './App.css'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import DefaultPack from './DefaultPack'
+import Card from './components/Card'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [pack, setPack] = useState(DefaultPack)
+
+  function handleCardDeleted(cardId) {
+    let newPack = { ...pack }
+    newPack.cards = newPack.cards.filter((card) => {
+      if (card.id != cardId) return card
+    })
+    setPack(newPack)
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='header'></div>
+      <div className='cards'>
+        {pack.cards.map((card) => (
+          <Card
+            key={card.id}
+            id={card.id}
+            text={card.text}
+            author={pack.author}
+            cardColor={pack.card_color}
+            textColor={pack.text_color}
+            onDelete={handleCardDeleted}
+          />
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
